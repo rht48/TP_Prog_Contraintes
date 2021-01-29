@@ -1,9 +1,47 @@
 ---
-title: CR TP1 Contraintes
 author: Julien LETOILE, Romain HUBERT
+title: CR TP1 Programmation par contraintes
 ---
 
-## Réponses rédigées
+
+
+# 					<center>CR TP1 Programmation par contraintes</center> 
+
+
+
+
+
+
+
+
+
+<center>Julien LETOILE, Romain HUBERT</center>
+
+<center>le 26/01/2021</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Table des matières
+
+------
+
+[TOC]
+
+------
+
+
+
+## I. <u>Réponses rédigées</u>
 
 ### Question 1.2
 
@@ -77,7 +115,7 @@ Après exécution de la requête ***X #:: -10..10, vabsOr(X, Y).***, on obtient 
 
 On remarque que les 2 sorties se ressemblent hormis une inversion des arrivées des valeurs de X. Prolog, dans *vabs*, cherche toutes les solutions de ***AbsVal #= Val*** puis les solutions de ***AbsVal #= -Val***. Alors que dans *vabsOr*, le labeling prend toutes les valeurs dans l'ordre.
 
-## Arbres de recherche
+## II. <u>Arbres de recherche</u>
 
 ### Question 1.5
 

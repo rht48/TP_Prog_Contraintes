@@ -15,21 +15,25 @@ title: CR TP1 Programmation par contraintes
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <center>Julien LETOILE, Romain HUBERT</center>
 
 <center>le 26/01/2021</center>
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Table des matières
 
@@ -55,7 +59,7 @@ On parle d'approche "Generate and Test" puisque dans *commande*, on va d'abord g
 
 ### Question 1.7
 
-En remplaçant les prédicats *isBetween* et *>=* par les conraintes *Var #:: Min..Max* et *#>=*, on obtient la réponse suivante :
+En remplaçant les prédicats *isBetween* et *>=* par les conraintes *Var #:: Min..Max* et *#>=*, on obtient la réponse suivante:
 > isBetween2(X, -2, 5).
 > 
 > X = X{-2 .. 5}
@@ -65,7 +69,7 @@ En remplaçant les prédicats *isBetween* et *>=* par les conraintes *Var #:: Mi
 
 ### Question 1.12
 
-Après exécution de la requête ***X #:: -10..10, vabs(X, Y).***, on obtient la réponse suivante :
+Après exécution de la requête ***X #:: -10..10, vabs(X, Y).***, on obtient la réponse suivante:
 
 > X = 0  
 > Y = 0  
@@ -89,7 +93,7 @@ Après exécution de la requête ***X #:: -10..10, vabs(X, Y).***, on obtient la
 > Y = 10  
 > Yes (0.02s cpu, solution 21)
 
-Après exécution de la requête ***X #:: -10..10, vabsOr(X, Y).***, on obtient la réponse suivante :
+Après exécution de la requête ***X #:: -10..10, vabsOr(X, Y).***, on obtient la réponse suivante:
 
 > X = 0  
 > Y = 0  
@@ -129,45 +133,41 @@ Donc la suite est de période 9.
 
 ### Question 1.5
 
-Après exécution de la requête ***commande(NbResistance, NbCondensateur).***, on obtient l'arbre élagué suivant :
+Après exécution de la requête ***commande(-NbResistance, -NbCondensateur).***, on obtient l'arbre élagué suivant :
 
 ```mermaid
-stateDiagram
-    [*] --> commande(NbR, NbC).
-    commande(NbR, NbC). --> [*]
-    commande(NbR, NbC). --> [NbR\NbR1, NbC\NbC1]
-    [NbR\NbR1, NbC\NbC1] --> isBetween(NbR1, 5000, 10000), isBetween(NbC1, 9000, 20000), NbR1>NbC1.
-    isBetween(NbR1, 5000, 10000), isBetween(NbC1, 9000, 20000), NbR1>NbC1. --> [NbR\5000, NbR1\5000, NbC\NbC1]
-    isBetween(NbR1, 5000, 10000), isBetween(NbC1, 9000, 20000), NbR1>NbC1. --> [NbR\9001, NbR1\9001, NbC\NbC1]
+graph TB
+A(["commande(NbRes, NbCondo)"])
+A --> B["isBetween(NbRes, 5000, 10000), isBetween(9000, 20000), NbRes >= NbCondo."]
+B -->|"{NbRes\10000}"| C["isBetween(10000, 5000, 10000), isBetween(NbCondo, 9000, 20000), NbRes >= NbCondo."]
+C -->|"{NbCondo\20000}"| D["isBetween(10000, 5000, 10000), isBetween(20000, 9000, 20000), 10000 >= 20000."]
+D --> E(["Fail"])
 
-    [NbR\5000, NbR1\5000, NbC\NbC1] --> isBetween(5000, 5000, 10000), isBetween(NbC1, 9000, 20000), 5000>NbC1.
-    isBetween(5000, 5000, 10000), isBetween(NbC1, 9000, 20000), 5000>NbC1. --> [NbR\5000, NbR1\5000, NbC\9000, NbC1\9000]
-    [NbR\5000, NbR1\5000, NbC\9000, NbC1\9000] --> isBetween(5000, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000
-    isBetween(5000, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000 --> fail
-    fail --> [*]
-
-    [NbR\9001, NbR1\9001, NbC\NbC1] --> isBetween(9001, 5000, 10000), isBetween(NbC1, 9000, 20000), 9001>NbC1.
-    isBetween(9001, 5000, 10000), isBetween(NbC1, 9000, 20000), 9001>NbC1. --> [NbR\9001, NbR1\9001, NbC\9000, NbC1\9000]
-    [NbR\9001, NbR1\9001, NbC\9000, NbC1\9000] --> isBetween(9001, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000.
-    isBetween(9001, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000. --> true
-    true --> [*]
+B --> F(["..."])
+B --> |"{NbRes\9000}"| G["isBetween(9000, 5000, 10000), isBetween(NbCondo, 9000, 20000), NbRes >= NbCondo."]
+G -->|"{NbCondo\9000}"| H["isBetween(9000, 5000, 10000), isBetween(20000, 9000, 20000), 9000 >= 9000."]
+H --> I(["Yes"])
 
 ```
 
+
+<center><i><u>Figure 1: Arbre de commande(-,-)</u></i></center>
+
 ### Question 1.8
 
-```flow
-st=>start: commande2(NbRes, NbCondo).
-e1=>start: isBetween2(NbRes, 5000, 10000), isBetween2(NbCondo, 9000, 20000), NbRes #>= NbCondo, labeling([nbRes, NbCondo]).
-e2=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo, 9000, 20000), NbRes #>= NbCondo, labeling([nbRes, NbCondo]).
-e3=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000, 20000}, 9000, 20000), NbRes #>= NbCondo, labeling([nbRes, NbCondo]).
-e4=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000, 20000}, 9000, 20000), NbRes{5000, 10000} #>= NbCondo{9000, 20000}, labeling([nbRes, NbCondo]).
-e5=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000, 20000}, 9000, 20000), NbRes{5000, 10000} #>= NbCondo{9000, 20000}, labeling([9000, 9000]).
-f=>end: Yes: NbRes=9000, NbCondo=9000
+Après exécution de la requête ***commande2(-NbResistance, -NbCondensateur).***, on obtient l'arbre élagué suivant :
 
-st->e1
-e1->e2
-e2->e3
-e3->e4
-e4->e5
-e5->f
+```mermaid
+graph TB
+A(["commande2(NbRes, NbCondo)"])
+A --> B["isBetween2(NbRes, 5000, 10000), isBetween2(NbCondo, 9000, 20000), NbRes #>= NbCondo, labeling([NbRes, NbCondo])."]
+B -->|"{NbRes\NbRes{5000..10000}}"| C["isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo, 9000, 20000), NbRes{5000, 10000} #>= NbCondo, labeling([NbRes{5000, 10000}, NbCondo])."]
+C -->|"{NbCondo\NbCondo{9000..20000}}"| D["isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000..20000}, 9000, 20000), NbRes{5000, 10000} #>= NbCondo{9000..20000}, labeling([NbRes{5000, 10000}, NbCondo{9000..20000}])."]
+D -->|"Réduction du domaine: NbCondo{9000, 10000} - NbRes{9000, 10000} #=< 0}"| E["isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000..20000}, 9000, 20000), NbRes{9000, 10000} #>= NbCondo{9000..10000}, labeling([NbRes{9000, 10000}, NbCondo{9000..10000}])."]
+E -->|"Le labeling choisit les valeurs de NbRes et NbCondo: {NbRes\9000, NbCondo\9000}"| F["isBetween2(9000, 5000, 10000), isBetween2(9000, 9000, 20000), 9000 #>= 9000, labeling([9000, 9000])."]
+F --> G(["Yes"])
+E -->|"D'autres valeurs de NbRes et NbCondo"| H["..."]
+```
+
+<center><i><u>Figure 2: Arbre de commande2(-,-)</u></i></center>
+

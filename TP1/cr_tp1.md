@@ -129,21 +129,45 @@ Donc la suite est de période 9.
 
 ### Question 1.5
 
-Après exécution de la requête ***commande(NbResistance, NbCondensateur).***, on obtient l'arbre suivant :
-+-- commande(NbResistance, NbCondensateur)
-|   +-- NbResistance >= NbCondensateur
+Après exécution de la requête ***commande(NbResistance, NbCondensateur).***, on obtient l'arbre élagué suivant :
+
+```mermaid
+stateDiagram
+    [*] --> commande(NbR, NbC).
+    commande(NbR, NbC). --> [*]
+    commande(NbR, NbC). --> [NbR\NbR1, NbC\NbC1]
+    [NbR\NbR1, NbC\NbC1] --> isBetween(NbR1, 5000, 10000), isBetween(NbC1, 9000, 20000), NbR1>NbC1.
+    isBetween(NbR1, 5000, 10000), isBetween(NbC1, 9000, 20000), NbR1>NbC1. --> [NbR\5000, NbR1\5000, NbC\NbC1]
+    isBetween(NbR1, 5000, 10000), isBetween(NbC1, 9000, 20000), NbR1>NbC1. --> [NbR\9001, NbR1\9001, NbC\NbC1]
+
+    [NbR\5000, NbR1\5000, NbC\NbC1] --> isBetween(5000, 5000, 10000), isBetween(NbC1, 9000, 20000), 5000>NbC1.
+    isBetween(5000, 5000, 10000), isBetween(NbC1, 9000, 20000), 5000>NbC1. --> [NbR\5000, NbR1\5000, NbC\9000, NbC1\9000]
+    [NbR\5000, NbR1\5000, NbC\9000, NbC1\9000] --> isBetween(5000, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000
+    isBetween(5000, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000 --> fail
+    fail --> [*]
+
+    [NbR\9001, NbR1\9001, NbC\NbC1] --> isBetween(9001, 5000, 10000), isBetween(NbC1, 9000, 20000), 9001>NbC1.
+    isBetween(9001, 5000, 10000), isBetween(NbC1, 9000, 20000), 9001>NbC1. --> [NbR\9001, NbR1\9001, NbC\9000, NbC1\9000]
+    [NbR\9001, NbR1\9001, NbC\9000, NbC1\9000] --> isBetween(9001, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000.
+    isBetween(9001, 5000, 10000), isBetween(9000, 9000, 20000), 9001>9000. --> true
+    true --> [*]
+
+```
 
 ### Question 1.8
 
-+-- commande2(NbResistance, NbCondensateur)
-|   +-- isBetween2(NbResistance, 5000, 10000)
-|   |   +-- '#::_body'(NbResistance, 5000 .. 10000, eclipse)
-|   |   +-- - 10000 + 5000 #=< 0
-|   +-- isBetween2(NbCondensateur, 9000, 20000)
-|   |   +-- '#::_body'(NbCondensateur, 9000 .. 20000, eclipse)
-|   |   +-- - 20000 + 9000 #=< 0
-|   +-- NbCondensateur{9000 .. 20000} - NbResistance{5000 .. 10000} #=< 0
-|   +-- labeling([NbResistance{9000 .. 10000}, NbCondensateur{... .. ...}])
-|   |   +-- wake
-|   |   +-- NbCondensateur{9000 .. 10000} - 9000 #=< 0
-NbCondensateur{9000 .. 10000} - 9000 #=< 0
+```flow
+st=>start: commande2(NbRes, NbCondo).
+e1=>start: isBetween2(NbRes, 5000, 10000), isBetween2(NbCondo, 9000, 20000), NbRes #>= NbCondo, labeling([nbRes, NbCondo]).
+e2=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo, 9000, 20000), NbRes #>= NbCondo, labeling([nbRes, NbCondo]).
+e3=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000, 20000}, 9000, 20000), NbRes #>= NbCondo, labeling([nbRes, NbCondo]).
+e4=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000, 20000}, 9000, 20000), NbRes{5000, 10000} #>= NbCondo{9000, 20000}, labeling([nbRes, NbCondo]).
+e5=>start: isBetween2(NbRes{5000, 10000}, 5000, 10000), isBetween2(NbCondo{9000, 20000}, 9000, 20000), NbRes{5000, 10000} #>= NbCondo{9000, 20000}, labeling([9000, 9000]).
+f=>end: Yes: NbRes=9000, NbCondo=9000
+
+st->e1
+e1->e2
+e2->e3
+e3->e4
+e4->e5
+e5->f

@@ -115,6 +115,16 @@ Après exécution de la requête ***X #:: -10..10, vabsOr(X, Y).***, on obtient 
 
 On remarque que les 2 sorties se ressemblent hormis une inversion des arrivées des valeurs de X. Prolog, dans *vabs*, cherche toutes les solutions de ***AbsVal #= Val*** puis les solutions de ***AbsVal #= -Val***. Alors que dans *vabsOr*, le labeling prend toutes les valeurs dans l'ordre.
 
+### Question 1.15
+
+Pour vérifier que cette suite est périodique de période 9, il suffit de montrer qu'il n'existe pas une suite qui n'est pas de période 9. Ainsi, une requête qui vérifie cela est:
+
+>faitListe(X, 15, -100, 100), suite(X), non_periodique9(X), labeling(X).
+>
+>No (0.75 cpu)
+
+Donc la suite est de période 9.
+
 ## II. <u>Arbres de recherche</u>
 
 ### Question 1.5

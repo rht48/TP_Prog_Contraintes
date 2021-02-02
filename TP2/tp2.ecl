@@ -15,12 +15,11 @@
 
 resoudre(Rue):-
     rue(Rue),
+    contrainte(Rue),
     ecrit_maisons(Rue),
     getVarlist(Rue, Liste),
     labeling_symbolic(Liste).
 
-% getVarList(Rue, 
-%     ( foreach(Maison, Rue))
     
 /* Question 2.2 */
 
@@ -94,7 +93,41 @@ getVarlist(Rue, Liste):-
 
 /* Question 2.7 */
 
+contrainte(R):-
+    (
+        foreach(M, R),
+        param(R)
+    do
+        contrainte_simple(M),
+        (
+            foreach(M2, R),
+            param(M)
+        do
+            contrainte_double(M, M2)
+        )
+    ).
 
+contrainte_simple(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)):-
+    (Pays &= angleterre) #= (Couleur &= rouge),
+    (Pays &= espagne) #= (Animal &= chien),
+    (Couleur &= verte) #= (Boisson &= cafe),
+    (Pays &= ukraine) #= (Boisson &= the),
+    (Voiture &= bmw) #= (Animal &= serpent),
+    (Couleur &= jaune) #= (Voiture &= toyota),
+    (Boisson &= lait) #= (Numero &= 3),
+    (Pays &= norvege) #= (Numero &= 1),
+    (Voiture &= honda) #= (Boisson &= jus_orange),
+    (Pays &= japon) #= (Voiture &= datsun).
+    
+
+
+contrainte_double(maison(P1, C1, _, V1, _, N1), 
+                  maison(_, C2, _, _, A2, N2)):-
+    ((V1 &= ford) and (A2 &= renard)) => ((N1+1 #= N2) or (N1-1 #= N2)),
+    (V1 &= toyota) and (A2 &= cheval) => ((N1+1 #= N2) or (N1-1 #= N2)),
+    ((P1 &= norvege) and (C2 &= bleue)) => ((N1+1 #= N2) or (N1-1 #= N2)),
+    ((C1 &= verte) and (C2 &= blanche)) => (N1-1 #= N2).
 
 /* Question 2.8 */
 
+/* Le Japonais possède un zèbre et la maison 1 boit de l'eau (si si, une maison ça peut boire) */

@@ -2,7 +2,7 @@
 :-lib(ic_symbolic).
 
 /* Question 2.1 */
-/* Day &:: week. */
+/* Définition des domaines */
 
 ?- local domain(pays(angleterre, espagne, ukraine, norvege, japon)).
 ?- local domain(couleur(rouge, verte, blanche, bleue, jaune)).
@@ -12,6 +12,7 @@
 ?- local domain(numero(1, 2, 3, 4, 5)).
 
 /* Question 2.6 */
+/* Prédicat de résolution du problème */
 
 resoudre(Rue):-
     rue(Rue),
@@ -22,6 +23,7 @@ resoudre(Rue):-
 
     
 /* Question 2.2 */
+/* Application des domaines définis pécédemment aux maisons */
 
 domaines_maison(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)):-
     Pays &:: pays,
@@ -33,14 +35,7 @@ domaines_maison(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)):-
     
 
 /* Question 2.3 */
-
-% rue([maison(Pays, Couleur, Boisson, Voiture, Animal, 5)]):-
-%     domaines_maison(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)).
-
-% rue([maison(Pays, Couleur, Boisson, Voiture, Animal, Numero), maison(Pays1, Couleur1, Boisson1, Voiture1, Animal1, Numero1) | Rue]):-
-%     domaines_maison(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)),
-%     Numero #= Numero1 - 1, 
-%     rue([maison(Pays1, Couleur1, Boisson1, Voiture1, Animal1, Numero1) | Rue]).
+/* Définition d'une rue, ou liste de maisons */
 
 rue(R):-
     R = [maison(P1, C1, B1, V1, A1, 1), 
@@ -61,6 +56,7 @@ rue(R):-
 
 
 /* Question 2.4 */
+/* Affichage d'une rue dans la console */
 
 % ecrit_maisons([]).
 % ecrit_maisons([maison(Pays, Couleur, Boisson, Voiture, Animal, Numero) | Rue]):-
@@ -92,6 +88,7 @@ getVarlist(Rue, Liste):-
 
 
 /* Question 2.7 */
+/* Application des contraintes de l'énoncé */
 
 contrainte(R):-
     (
@@ -107,6 +104,11 @@ contrainte(R):-
         )
     ).
 
+/* Nous avons différencié deux types : 
+    Les contraintes simples ne concernent qu une maison.
+    Les contraintes doubles concernent deux maisons.
+*/
+
 contrainte_simple(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)):-
     (Pays &= angleterre) #= (Couleur &= rouge),
     (Pays &= espagne) #= (Animal &= chien),
@@ -118,8 +120,6 @@ contrainte_simple(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)):-
     (Pays &= norvege) #= (Numero &= 1),
     (Voiture &= honda) #= (Boisson &= jus_orange),
     (Pays &= japon) #= (Voiture &= datsun).
-    
-
 
 contrainte_double(maison(P1, C1, _, V1, _, N1), 
                   maison(_, C2, _, _, A2, N2)):-
@@ -131,3 +131,10 @@ contrainte_double(maison(P1, C1, _, V1, _, N1),
 /* Question 2.8 */
 
 /* Le Japonais possède un zèbre et la maison 1 boit de l'eau (si si, une maison ça peut boire) */
+
+/* Question 2.1 */
+
+/* 
+Ne pas fixer les valeurs des numéros de maison n'aurait pas contraint l'ordre, et donc n'aurait pas permis de satisfaire les contraintes (e) et (h) par exemple.
+On est obliger de les fixer pour répondre au problème.
+*/

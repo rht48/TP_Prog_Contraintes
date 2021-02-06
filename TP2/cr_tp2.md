@@ -1,3 +1,79 @@
+---
+author: Julien LETOILE, Romain HUBERT
+title: CR TP1 Programmation par contraintes
+---
+
+
+
+
+
+
+
+<center style="font-size: xx-large;"><b>CR TP2 Programmation par contraintes</b></center> 
+
+------
+
+
+
+
+
+
+
+
+
+<center style="font-size: x-large;">Contraintes logiques</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>Julien LETOILE, Romain HUBERT</center>
+
+<center>le 02/02/2021</center>
+
+# Table des matières
+
+[TOC]
+
+
+
+
+
+
+
+## I. <u>Réponses rédigées</u>
+
+### Question de compréhension
+
+Ne pas fixer les valeurs des numéros de maison n'aurait pas contraint l'ordre, et donc n'aurait pas permis de satisfaire les contraintes (e) et (h) par exemple.
+
+On est obligé de les fixer pour répondre au problème.
+
+### Question 2.8
+
+Au lancement de résoudre, nous obtenons la réponse suivant.
+
+>resoudre(R).
+>
+>R = [maison(norvege, jaune, eau, toyota, renard, 1), maison(ukraine, bleue, the, ford, cheval, 2), maison(angleterre, rouge, lait, bmw, serpent, 3), maison(espagne, blanche, jus_orange, honda, chien, 4), maison(japon, verte, cafe, datsun, zebre, 5)]
+
+Ainsi, le Japonais possède un zèbre et le Norvégien boit de l'eau.
+
+## II. <u>Annexes</u>
+
+### Code source
+
+```javascript
 :-lib(ic).
 :-lib(ic_symbolic).
 
@@ -36,6 +112,7 @@ domaines_maison(maison(Pays, Couleur, Boisson, Voiture, Animal, Numero)):-
 
 /* Question 2.3 */
 /* Définition d'une rue, ou liste de maisons */
+/* On donne un domaine pour chaque variable, puis on s'assure que les valeurs prises par les variables sont toutes différents entre les maisons */
 
 rue(R):-
     R = [maison(P1, C1, B1, V1, A1, 1), 
@@ -55,11 +132,11 @@ rue(R):-
     ic_symbolic:alldifferent([A1, A2, A3, A4, A5]).
 
 /*
+rue(R).
 
 R = [maison(_289{[angleterre, espagne, ukraine, norvege, japon]}, _389{[rouge, verte, blanche, bleue, jaune]}, _489{[cafe, the, lait, jus_orange, eau]}, _589{[bmw, toyota, ford, honda, datsun]}, _689{[chien, serpent, renard, cheval, zebre]}, 1), maison(_852{[angleterre, espagne, ukraine, norvege, japon]}, _952{[rouge, verte, blanche, bleue, jaune]}, _1052{[cafe, the, lait, jus_orange, eau]}, _1152{[bmw, toyota, ford, honda, datsun]}, _1252{[chien, serpent, renard, cheval, zebre]}, 2), maison(_1415{[angleterre, espagne, ukraine, norvege, japon]}, _1515{[rouge, verte, blanche, bleue, jaune]}, _1615{[cafe, the, lait, jus_orange, eau]}, _1715{[bmw, toyota, ford, honda, datsun]}, _1815{[chien, serpent, renard, cheval, zebre]}, 3), maison(_1978{[angleterre, espagne, ukraine, norvege, japon]}, _2078{[rouge, verte, blanche, bleue, jaune]}, _2178{[cafe, the, lait, jus_orange, eau]}, _2278{[bmw, toyota, ford, honda, datsun]}, _2378{[chien, serpent, renard, cheval, zebre]}, 4), maison(_2541{[angleterre, espagne, ukraine, norvege, japon]}, _2641{[rouge, verte, blanche, bleue, jaune]}, _2741{[cafe, the, lait, jus_orange, eau]}, _2841{[bmw, toyota, ford, honda, datsun]}, _2941{[chien, serpent, renard, cheval, zebre]}, 5)]
 
 */
-
 
 /* Question 2.4 */
 /* Affichage d'une rue dans la console */
@@ -88,14 +165,15 @@ labeling_symbolic([]).
 labeling_symbolic([X | Liste]):-
     ic_symbolic:indomain(X),
     labeling_symbolic(Liste).
-    
+
+/* Utilisation de term_variables pour récupérer toutes les variables dans la liste */
 getVarlist(Rue, Liste):-
     term_variables(Rue, Liste).
 
 
 /* Question 2.7 */
 /* Application des contraintes de l'énoncé */
-
+/* On fixe les contraintes sur chaque maison, puis on fixe les contraintes entre toutes les maisons */
 contrainte(R):-
     (
         foreach(M, R),
@@ -134,13 +212,4 @@ contrainte_double(maison(P1, C1, _, V1, _, N1),
     ((P1 &= norvege) and (C2 &= bleue)) => ((N1+1 #= N2) or (N1-1 #= N2)),
     ((C1 &= verte) and (C2 &= blanche)) => (N1-1 #= N2).
 
-/* Question 2.8 */
-
-/* Le Japonais possède un zèbre et le Norvégien boit de l'eau.  */
-
-/* Question 2.1 */
-
-/* 
-Ne pas fixer les valeurs des numéros de maison n'aurait pas contraint l'ordre, et donc n'aurait pas permis de satisfaire les contraintes (e) et (h) par exemple.
-On est obliger de les fixer pour répondre au problème.
-*/
+```

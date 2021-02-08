@@ -61,7 +61,7 @@ On est obligé de les fixer pour répondre au problème.
 
 ### Question 2.8
 
-Au lancement de résoudre, nous obtenons la réponse suivant.
+Au lancement de <b><i>résoudre</i></b>, nous obtenons la réponse suivant.
 
 >resoudre(R).
 >

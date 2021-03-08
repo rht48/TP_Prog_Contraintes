@@ -168,7 +168,7 @@ precedences(Taches):-
 
 conflit(Taches):-
     (
-        for(I, 1, 12),
+        for(I, 1, 11),
         param(Taches)
     do
         (

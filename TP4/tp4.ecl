@@ -9,7 +9,8 @@ solve(T):-
     pasMemePartenaires(T, NbEquipes, NbConf),
     capaBateaux(T, TailleEquipes, NbEquipes, CapaBateaux, NbBateaux, NbConf),
     getVarListAlt(T, Liste),
-    labeling(Liste).
+    labeling(Liste),
+    affiche(T).
     
 /* Test 4.4 */
 /*
@@ -244,3 +245,20 @@ T = []([](10, 7, 9, 3, 8, 1, 2), [](11, 9, 8, 7, 2, 10, 1), [](9, 11, 10, 8, 3, 
 
 Yes (152.61s cpu, solution 1, maybe more) ?
 */
+
+affiche(T):-
+    dim(T, [NbEquipes, NbConf]),
+    (
+        for(Equipe, 1, NbEquipes),
+        param(T, NbConf)
+    do
+        (
+            for(Conf, 1, NbConf),
+            param(T, Equipe)
+        do
+            X is T[Equipe, Conf],
+            write(X),
+            write("\t")
+        ),
+        writeln("")
+    )

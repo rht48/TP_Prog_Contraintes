@@ -10,7 +10,6 @@ if len(args) >= 2:
             new_file_content += line.replace("[", "\[").replace("]", "\]")
         else:
             new_file_content += line
-        new_file_content += "\n"
         
     file.close()    
 

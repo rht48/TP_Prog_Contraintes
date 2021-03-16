@@ -9,7 +9,7 @@
 
 /* Q 6.2 */
 
-solve(Places):-
+solve:-
     getData(Poids, Personnes),
     dim(Poids, [Longueur]),
     getVar(Places, Longueur),
@@ -19,7 +19,19 @@ solve(Places):-
     labeling(Places),
     affiche(Places, Personnes, Norme).
 
-solve_minimize_v1(Places):-
+solve_minimize_v0:-
+    getData(Poids, Personnes),
+    dim(Poids, [Longueur]),
+    getVar(Places, Longueur),
+
+    pose_contrainte(Places, Poids, Personnes),
+    norme(Places, Poids, Norme),
+
+    /* Recherche par le plus contraint, dans l'ordre croissant */
+    minimize(labeling(Places), Norme),
+    affiche(Places, Personnes, Norme).
+
+solve_minimize_v1:-
     getData(Poids, Personnes),
     dim(Poids, [Longueur]),
     getVar(Places, Longueur),
@@ -31,6 +43,50 @@ solve_minimize_v1(Places):-
     minimize(search(Places, 0, most_constrained, indomain_min, complete, []), Norme),
     affiche(Places, Personnes, Norme).
 
+solve_minimize_v2:-
+    getData(Poids, Personnes),
+    dim(Poids, [Longueur]),
+    getVar(Places, Longueur),
+
+    pose_contrainte(Places, Poids, Personnes),
+    norme(Places, Poids, Norme),
+
+    /* Recherche par le plus contraint, dans l'ordre croissant */
+    getVarList(Places, Liste),
+    ic:get_domain_as_list(Liste, ListeDomaine),
+    
+    minimize(search(ListeDomaine, 0, most_constrained, indomain_min, complete, []), Norme),
+    affiche(Places, Personnes, Norme).
+
+solve_minimize_v3:-
+    getData(Poids, Personnes),
+    dim(Poids, [Longueur]),
+    getVar(Places, Longueur),
+
+    pose_contrainte(Places, Poids, Personnes),
+    norme(Places, Poids, Norme),
+
+    /* Recherche par le plus contraint, dans l'ordre croissant */
+    getVarList(Places, Liste),
+    ic:get_domain_as_list(Liste, ListeDomaine),
+    
+    minimize(search(ListeDomaine, 0, most_constrained, indomain_min, complete, []), Norme),
+    affiche(Places, Personnes, Norme).
+
+solve_minimize_v4:-
+    getData(Poids, Personnes),
+    dim(Poids, [Longueur]),
+    getVar(Places, Longueur),
+
+    pose_contrainte(Places, Poids, Personnes),
+    norme(Places, Poids, Norme),
+
+    /* Recherche par le plus contraint, dans l'ordre croissant */
+    getVarList(Places, Liste),
+    ic:get_domain_as_list(Liste, ListeDomaine),
+    
+    minimize(search(ListeDomaine, 0, most_constrained, indomain_min, complete, []), Norme),
+    affiche(Places, Personnes, Norme).
 
 
 /* Q 6.1 */
@@ -248,9 +304,48 @@ On a alors une symetrie par rapport au milieu. Ainsi, on aura 2 fois moins de so
 
 /* 6.4 */
 /*
-  tom    max    ron    zoe                         ted  |         luc    kim                  jim    dan    lou
+  tom    max    ron    zoe                         jim  |  kim           ted           luc           dan    lou
  -----  -----  -----  -----  -----  -----  -----  -----   -----  -----  -----  -----  -----  -----  -----  -----
   -8     -7     -6     -5     -4     -3     -2     -1   |   1      2      3      4      5      6      7      8
 
-Norme : 2808
+Norme : 1457
+  tom    max    ron    zoe                         jim  |  kim           ted           luc           dan    lou
+ -----  -----  -----  -----  -----  -----  -----  -----   -----  -----  -----  -----  -----  -----  -----  -----
+  -8     -7     -6     -5     -4     -3     -2     -1   |   1      2      3      4      5      6      7      8
+
+Norme : 1457
+
+
+P = [](-6, -5, -1, 8, 5, 7, 3, -8, -7, 1)
+Yes (0.17s cpu, solution 1, maybe more) ?
+*/
+
+/*
+V0:
+
+                       tom    dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+ -----  -----  -----  -----  -----  -----  -----  -----   -----  -----  -----  -----  -----  -----  -----  ----- 
+  -8     -7     -6     -5     -4     -3     -2     -1   |   1      2      3      4      5      6      7      8
+
+Norme : 802
+
+
+P = [](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
+Yes (2.13s cpu)
+
+*/
+
+/*
+V1:
+
+
+                       tom    dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+ -----  -----  -----  -----  -----  -----  -----  -----   -----  -----  -----  -----  -----  -----  -----  -----
+  -8     -7     -6     -5     -4     -3     -2     -1   |   1      2      3      4      5      6      7      8
+
+Norme : 802
+
+
+P = [](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
+Yes (0.23s cpu)
 */

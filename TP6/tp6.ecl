@@ -54,10 +54,11 @@ solve_minimize_v2:-
     norme(Places, Poids, Norme),
 
     /* Recherche par le plus contraint, dans l'ordre croissant */
-    getVarList(Places, Liste),
-    ic:get_domain_as_list(Liste, ListeDomaine),
+
+    ic:get_domain_as_list(Norme, ListeDomaine),
     
-    minimize(search(ListeDomaine, 0, most_constrained, indomain_min, complete, []), Norme),
+
+    minimize(search(Places, 0, most_constrained, indomain_min, complete, []), Norme),
     affiche(Places, Personnes, Norme).
 
 solve_minimize_v3:-
@@ -84,10 +85,9 @@ solve_minimize_v4:-
     norme(Places, Poids, Norme),
 
     /* Recherche par le plus contraint, dans l'ordre croissant */
-    getVarList(Places, Liste),
-    ic:get_domain_as_list(Liste, ListeDomaine),
+    getVarListOpti(Places, Liste),
     
-    minimize(search(ListeDomaine, 0, most_constrained, indomain_min, complete, []), Norme),
+    minimize(search(Liste, 0, most_constrained, indomain_min, complete, []), Norme),
     affiche(Places, Personnes, Norme).
 
 
@@ -171,6 +171,21 @@ indicePersonne(Personne, Personnes, Indice):-
 
 getVarList(Places, List):-
     term_variables(Places, List).
+
+
+/* Par ordre des poids */
+getVarListOpti(Places, Liste):-
+    PlaceRon is Places[1],
+    PlaceZoe is Places[2],
+    PlaceJim is Places[3],
+    PlaceLou is Places[4],
+    PlaceLuc is Places[5],
+    PlaceDan is Places[6],
+    PlaceTed is Places[7],
+    PlaceTom is Places[8],
+    PlaceMax is Places[9],
+    PlaceKim is Places[10],
+    Liste = [PlaceLuc, PlaceTom, PlaceJim, PlaceLou, PlaceZoe, PlaceTed, PlaceRon, PlaceKim, PlaceMax, PlaceDan].
 
 /* Affichage des resultats */
 affiche(Places, Personnes, Norme):-
@@ -290,6 +305,9 @@ indiceDe(Element, Vecteur, Indice):-
         NouvelleValeur #= (Element #= X) * I + AncienneValeur * (Element #\= X)
     ).
 
+
+
+
 /******* REPONSES *********/
 
 /* 6.2 */
@@ -309,22 +327,6 @@ On a alors une symetrie par rapport au milieu. Ainsi, on aura 2 fois moins de so
 */
 
 /* 6.4 */
-/*
-  tom    max    ron    zoe                         jim  |  kim           ted           luc           dan    lou
- -----  -----  -----  -----  -----  -----  -----  -----   -----  -----  -----  -----  -----  -----  -----  -----
-  -8     -7     -6     -5     -4     -3     -2     -1   |   1      2      3      4      5      6      7      8
-
-Norme : 1457
-  tom    max    ron    zoe                         jim  |  kim           ted           luc           dan    lou
- -----  -----  -----  -----  -----  -----  -----  -----   -----  -----  -----  -----  -----  -----  -----  -----
-  -8     -7     -6     -5     -4     -3     -2     -1   |   1      2      3      4      5      6      7      8
-
-Norme : 1457
-
-
-P = [](-6, -5, -1, 8, 5, 7, 3, -8, -7, 1)
-Yes (0.17s cpu, solution 1, maybe more) ?
-*/
 
 /*
 V0:
@@ -354,4 +356,31 @@ Norme : 802
 
 P = [](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
 Yes (0.23s cpu)
+*/
+
+/*
+V4
+
+Found a solution with cost 945
+Found a solution with cost 848
+Found a solution with cost 802
+Found no solution with cost 30.0 .. 801.0
+ron : 3
+zoe : -1
+jim : 2
+lou : 6
+luc : 1
+dan : -4
+ted : -3
+tom : -5
+max : 5
+kim : -2
+
+
+                       tom    dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+ -----  -----  -----  -----  -----  -----  -----  -----   -----  -----  -----  -----  -----  -----  -----  ----- 
+  -8     -7     -6     -5     -4     -3     -2     -1   |   1      2      3      4      5      6      7      8
+
+Norme : 802
+
 */

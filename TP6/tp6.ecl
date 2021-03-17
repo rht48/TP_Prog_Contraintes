@@ -6,19 +6,21 @@
 ?- local domain(noms(ron, zoe, jim, lou, luc, dan, ted, tom, max, kim)).
 
 
+/* minimize(+Goal, ?Cost, +Options) : A solution of the goal Goal is found that minimizes the value of Cost using branch and bound */
+/* search(+L, ++Arg, ++Select, +Choice, ++Method, +Option) : */
 
 /* Q 6.2 */
-
+/* Prédicat de résolution du problème */
 solve:-
     getData(Poids, Personnes),
     dim(Poids, [Longueur]),
     getVar(Places, Longueur),
-
     pose_contrainte(Places, Poids, Personnes),
     norme(Places, Poids, Norme),
     labeling(Places),
     affiche(Places, Personnes, Norme).
 
+/* Prédicats de résolution avec Branch and Bound */
 solve_minimize_v0:-
     getData(Poids, Personnes),
     dim(Poids, [Longueur]),
@@ -90,12 +92,13 @@ solve_minimize_v4:-
 
 
 /* Q 6.1 */
-
+/* Pose les contraintes sur les données */
 getData(Poids, Personnes):-
     Personnes = [](ron, zoe, jim, lou, luc, dan, ted, tom, max, kim),
     Personnes &:: noms,
     Poids = [](24, 39, 85, 60, 165, 6, 32, 123, 7, 14).
-    
+
+/* Pose les contraintes sur les variables */
 getVar(Places, Longueur):-
     dim(Places, [Longueur]),
     Places #:: [-8 .. -1, 1 .. 8].
@@ -109,11 +112,12 @@ pose_contrainte(Places, Poids, Personnes):-
     enleveSymetrie(Places, Personnes),
     ic:alldifferent(Places).
 
-
+/* Garantit que la balançire est en équilibre */
 equilibre(Places, Poids):-
     produitScalaire(Places, Poids, Somme),
     Somme #= 0.
 
+/* Place Lou et Tom aux extrémités */
 contraindreLouEtTom(Places, Personnes):-
     ic:max(Places, Max), 
     ic:min(Places, Min), 
@@ -122,7 +126,7 @@ contraindreLouEtTom(Places, Personnes):-
     Places[IndiceLou] #>= Max or Places[IndiceLou] #=< Min,
     Places[IndiceTom] #>= Max or Places[IndiceTom] #=< Min.
 
-
+/* Place Dan et Max devant Lou et Tom */
 contraindreDanEtMax(Places, Personnes):-
     indicePersonne(dan, Personnes, Dan),
     indicePersonne(max, Personnes, Max),
@@ -131,6 +135,7 @@ contraindreDanEtMax(Places, Personnes):-
     (Places[Lou] > 0) => ((Places[Dan] #= Places[Lou] - 1 and Places[Max] #= Places[Tom] + 1) or (Places[Max] #= Places[Lou] - 1 and Places[Dan] #= Places[Tom] + 1)),
     (Places[Lou] < 0) => ((Places[Dan] #= Places[Lou] + 1 and Places[Max] #= Places[Tom] - 1) or (Places[Max] #= Places[Lou] + 1 and Places[Dan] #= Places[Tom] - 1)).
 
+/* Garantit que 5 persones seront de part de d'autre de la balançoire */
 cinqDeChaqueCote(Places):-
     (
         foreachelem(Place, Places),
@@ -144,6 +149,7 @@ enleveSymetrie(Places, Personnes):-
     indicePersonne(lou, Personnes, IndiceLou),
     Places[IndiceLou] #> 0. /* Choisi de mettre la place de Lou à droite */
 
+/* Calcule la norme d'un vecteur */
 norme(Places, Poids, Norme):-
     absVecteur(Places, AbsVecteur),
     produitScalaire(AbsVecteur, Poids, Scalaire),

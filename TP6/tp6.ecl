@@ -173,7 +173,7 @@ getVarList(Places, List):-
     term_variables(Places, List).
 
 
-/* Par ordre des poids */
+/* Tri des données par ordre décroissant des poids */
 getVarListOpti(Places, Liste):-
     PlaceRon is Places[1],
     PlaceZoe is Places[2],
@@ -258,6 +258,7 @@ affiche(Places, Personnes, Norme):-
 
 /****************** FONCTIONS UTILITAIRES ******************/
 
+/* Calcule le produit cartésien de deux vecteurs */
 produitVecteur(Vect1, Vect2, Res):-
     dim(Vect1, [Longueur]),
     dim(Vect2, [Longueur]),
@@ -269,7 +270,7 @@ produitVecteur(Vect1, Vect2, Res):-
         Res[I] #= Vect1[I] * Vect2[I]
     ).
     
-
+/* Calcule le produit scalaire de deux vecteurs */
 produitScalaire(Vect1, Vect2, Res):-
     produitVecteur(Vect1, Vect2, Vect3),
     sommeVecteur(Vect3, Res).
@@ -294,6 +295,7 @@ absVecteur(Vect, Res):-
         Res[I] #= abs(X)
     ).
 
+/* Trouve l'indice d'un élément dans un vecteur */
 indiceDe(Element, Vecteur, Indice):-
     dim(Vecteur, [Longueur]),
     (

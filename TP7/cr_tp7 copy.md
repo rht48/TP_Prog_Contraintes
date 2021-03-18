@@ -69,7 +69,7 @@ Test:
 >
 > X &:: personnes, X &= homme, affirme(X, A).
 > X = homme
-> A = A{\[0, 1\]}
+> A = A{[0, 1]}
 > Yes (0.00s cpu)
 
 ### Question 7.2
@@ -84,15 +84,15 @@ Test:
 > X &:: personnes, X &= homme, affirme(X, A, B).
 >
 > X = homme
-> A = A{\[0, 1\]}
-> B = B{\[0, 1\]}
+> A = A{[0, 1]}
+> B = B{[0, 1]}
 >
 > Delayed goals:
->         _1711{\[0, 1\]} + B{\[0, 1\]} #= 1
->         #=(_1711{\[0, 1\]} + A{\[0, 1\]}, 2, _1681{\[0, 1\]})
->         _1869{\[0, 1\]} + A{\[0, 1\]} #= 1
->         #=(_1869{\[0, 1\]} + B{\[0, 1\]}, 2, _1854{\[0, 1\]})
->         - _1854{\[0, 1\]} - _1681{\[0, 1\]} #=< -1
+>         _1711{[0, 1]} + B{[0, 1]} #= 1
+>         #=(_1711{[0, 1]} + A{[0, 1]}, 2, _1681{[0, 1]})
+>         _1869{[0, 1]} + A{[0, 1]} #= 1
+>         #=(_1869{[0, 1]} + B{[0, 1]}, 2, _1854{[0, 1]})
+>         - _1854{[0, 1]} - _1681{[0, 1]} #=< -1
 > Yes (0.00s cpu)
 
 ### Question 7.3
@@ -118,9 +118,9 @@ Test:
 
 > pose_domaines(Parent1, Parent2, Enfant).
 >
-> Parent1 = Parent1{\[femme, homme\]}
-> Parent2 = Parent2{\[femme, homme\]}
-> Enfant = Enfant{\[femme, homme\]}
+> Parent1 = Parent1{[femme, homme]}
+> Parent2 = Parent2{[femme, homme]}
+> Enfant = Enfant{[femme, homme]}
 
 ### Question 7.4
 

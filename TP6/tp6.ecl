@@ -53,12 +53,7 @@ solve_minimize_v2:-
     pose_contrainte(Places, Poids, Personnes),
     norme(Places, Poids, Norme),
 
-    /* Recherche par le plus contraint, dans l'ordre croissant */
-
-    ic:get_domain_as_list(Norme, ListeDomaine),
-    
-
-    minimize(search(Places, 0, most_constrained, indomain_min, complete, []), Norme),
+    minimize(search(Places, 0, input_order, indomain_middle, complete, []), Norme),
     affiche(Places, Personnes, Norme).
 
 solve_minimize_v3:-
@@ -68,12 +63,8 @@ solve_minimize_v3:-
 
     pose_contrainte(Places, Poids, Personnes),
     norme(Places, Poids, Norme),
-
-    /* Recherche par le plus contraint, dans l'ordre croissant */
-    getVarList(Places, Liste),
-    ic:get_domain_as_list(Liste, ListeDomaine),
     
-    minimize(search(ListeDomaine, 0, most_constrained, indomain_min, complete, []), Norme),
+    minimize(search(Places, 0, most_constrained, indomain_middle, complete, []), Norme),
     affiche(Places, Personnes, Norme).
 
 solve_minimize_v4:-
@@ -87,7 +78,7 @@ solve_minimize_v4:-
     /* Recherche par le plus contraint, dans l'ordre croissant */
     getVarListOpti(Places, Liste),
     
-    minimize(search(Liste, 0, most_constrained, indomain_min, complete, []), Norme),
+    minimize(search(Liste, 0, most_constrained, indomain_middle, complete, []), Norme),
     affiche(Places, Personnes, Norme).
 
 

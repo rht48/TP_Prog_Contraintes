@@ -361,6 +361,15 @@ Test:
 >
 > Yes (0.14s cpu)
 
+### Question de compréhension
+
+Le labeling original prend les variables dans l'ordre de la liste en prenant les valeurs croissantes. En faisant cette technique, on risque de commencer par des variables avec un grand domaine, et donc aggrandi le temps de trouver une solution. Il n'est donc pas efficace puisque, dans notre cas, on commence avec une variable à grand domaine en partant de faibles valeurs. Ainsi, le temps de trouver une solution est plus important qu'avec notre propre labeling.
+
+### Choix des stratégies
+
+<u>Version 2 :</u> Nous avons choisi de chercher les solutions vers le centre des domaines parce qu'il est fort probable qu'une des solutions se trouve vers le milieu.
+
+<u>Version 4 :</u> Nous avons placé les personnes plus lourdes en avant pour augmenter leur priorité. En effet, une personne plus lourde affecte plus le moment qu'une personne légère donc il a moins de choix pour se placer sur la balançoire. On réduit ainsi le domaine pour obtenir plus rapidement une solution.
 
 ### Prédicats utilitaires
 

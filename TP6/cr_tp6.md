@@ -179,13 +179,13 @@ solve_minimize_v0:-
 
 Test:
 
-> .                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+> ​                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
 >   -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
 >
 > Norme : 802
 >
 >
-> P = [](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
+> P = \[\](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
 > Yes (2.13s cpu)
 
 #### Version 1
@@ -207,13 +207,13 @@ solve_minimize_v1:-
 
 Test:
 
-> .                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+> ​                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
 >   -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
 >
 > Norme : 802
 >
 >
-> P = [](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
+> P = \[\](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
 > Yes (0.23s cpu)
 
 #### Version 2
@@ -255,7 +255,7 @@ Test:
 > max : 5
 > kim : -2
 >
-> .                        tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+> ​                        tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
 >   -8      -7      -6      -5      -4      -3      -2      -1     |     1      2       3       4       5       6       7       8
 > 
 > Norme : 802
@@ -295,14 +295,13 @@ Test:
 > max : 5
 > kim : -2
 >
->
-> .                        tom   dan   ted    kim   zoe  |  luc    jim    ron           max    lou
->   -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
-> 
+>​                          tom   dan   ted    kim   zoe  |  luc    jim    ron           max    lou
+> -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
+>   
 > Norme : 802
+> 
 >
->
-> Yes (0.14s cpu)
+>Yes (0.14s cpu)
 
 #### Version 4
 

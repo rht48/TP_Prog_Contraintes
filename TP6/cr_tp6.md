@@ -179,13 +179,13 @@ solve_minimize_v0:-
 
 Test:
 
-> .                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+> ​                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
 >   -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
 >
 > Norme : 802
 >
 >
-> P = [](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
+> P = \[\](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
 > Yes (2.13s cpu)
 
 #### Version 1
@@ -207,13 +207,13 @@ solve_minimize_v1:-
 
 Test:
 
-> .                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+> ​                       tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
 >   -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
 >
 > Norme : 802
 >
 >
-> P = [](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
+> P = \[\](3, -1, 2, 6, 1, -4, -3, -5, 5, -2)
 > Yes (0.23s cpu)
 
 #### Version 2
@@ -255,7 +255,7 @@ Test:
 > max : 5
 > kim : -2
 >
-> .                        tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
+> ​                        tom   dan    ted    kim    zoe  |  luc    jim    ron           max    lou
 >   -8      -7      -6      -5      -4      -3      -2      -1     |     1      2       3       4       5       6       7       8
 > 
 > Norme : 802
@@ -295,14 +295,13 @@ Test:
 > max : 5
 > kim : -2
 >
->
-> .                        tom   dan   ted    kim   zoe  |  luc    jim    ron           max    lou
->   -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
-> 
+>​                          tom   dan   ted    kim   zoe  |  luc    jim    ron           max    lou
+> -8      -7      -6      -5      -4      -3      -2      -1    |    1       2       3       4       5       6       7       8
+>   
 > Norme : 802
+> 
 >
->
-> Yes (0.14s cpu)
+>Yes (0.14s cpu)
 
 #### Version 4
 
@@ -362,6 +361,15 @@ Test:
 >
 > Yes (0.14s cpu)
 
+### Question de compréhension
+
+Le labeling original prend les variables dans l'ordre de la liste en prenant les valeurs croissantes. En faisant cette technique, on risque de commencer par des variables avec un grand domaine, ce qui accroît le temps pour trouver une solution. Il n'est donc pas efficace puisque, dans notre cas, on commence avec une variable à grand domaine en partant de faibles valeurs. Ainsi, le temps de résolution est plus important qu'avec notre propre labeling.
+
+### Choix des stratégies
+
+<u>Version 2 :</u> Nous avons choisi de chercher les solutions vers le centre des domaines parce qu'il est fort probable qu'une des solutions se trouve vers le milieu.
+
+<u>Version 4 :</u> Nous avons placé les personnes les plus lourdes en premier pour augmenter leur priorité. En effet, une personne plus lourde affecte plus le moment qu'une personne légère donc en procédant de cette manière on minimise les choix pour se placer sur la balançoire. On réduit ainsi le domaine pour obtenir plus rapidement une solution.
 
 ### Prédicats utilitaires
 

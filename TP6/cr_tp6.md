@@ -497,8 +497,6 @@ affiche(Places, Personnes, Norme):-
 
 ## II. <u>Code source</u>
 
-On le posera quand il sera fini.
-
 ```javascript
 :-lib(ic).
 :-lib(ic_symbolic).
